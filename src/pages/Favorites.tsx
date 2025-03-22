@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart } from 'lucide-react';
+import { Heart, ChevronRight } from 'lucide-react';
 import { useFavorites } from '../contexts/FavoritesContext';
 import { TYPE_COLORS } from '../constants/pokemonTypes';
 import type { Pokemon, PokemonType } from '../types/pokemon';
@@ -81,144 +81,117 @@ const Favorites: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-red-600 to-red-500 p-4">
-            <div className="container mx-auto max-w-7xl">
-                <div className="bg-white/10 backdrop-blur-md rounded-xl shadow-lg p-6 mb-6">
-                    <div className="flex items-center justify-between mb-6">
-                        <h1 className="text-4xl font-bold text-white pokemon-title">
-                            My Favorite Pokémon
-                        </h1>
+        <div className="min-h-screen bg-gradient-to-b from-red-600 to-red-500">
+            <div className="container mx-auto px-4 py-24">
+                <h1 className="text-4xl font-bold text-white mb-8 pokemon-title">My Favorite Pokémon</h1>
+                
+                {favorites.length === 0 ? (
+                    <div className="text-center py-16 bg-white/10 backdrop-blur-sm rounded-xl">
+                        <p className="text-2xl text-white/90 mb-6">You haven't added any Pokémon to your favorites yet.</p>
                         <Link
                             to="/pokemon"
-                            className="px-4 py-2 bg-white/20 rounded-lg text-white hover:bg-white/30 transition"
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-yellow-400 hover:bg-yellow-300 
+                                text-red-700 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg 
+                                hover:shadow-yellow-300/50"
                         >
-                            View All Pokémon
+                            Browse Pokémon
+                            <ChevronRight className="w-5 h-5" />
                         </Link>
                     </div>
-
-                    {favorites.length === 0 ? (
-                        <div className="text-center py-12">
-                            <Heart size={48} className="mx-auto mb-4 text-white/50" />
-                            <p className="text-white/80 text-lg">
-                                No favorite Pokémon yet. Start adding some!
-                            </p>
-                            <Link
-                                to="/pokemon"
-                                className="inline-block mt-4 px-6 py-3 bg-white/20 rounded-xl text-white 
-                                  hover:bg-white/30 transition"
-                            >
-                                Browse Pokémon
-                            </Link>
-                        </div>
-                    ) : (
-                        <>
-                            <div className="relative mb-6">
-                                <input
-                                    type="text"
-                                    placeholder="Search favorites..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full pl-4 pr-4 py-3 rounded-xl bg-white/20 text-white 
-                                      placeholder-white/70 focus:outline-none focus:ring-2 
-                                      focus:ring-yellow-300 focus:bg-white/30"
-                                />
-                            </div>
-
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                                {filteredPokemon.map((pokemon) => (
-                                    <div key={pokemon.id} className="relative group">
-                                        <Link
-                                            to={`/pokemon/${pokemon.id}`}
-                                            state={{ from: 'favorites', pokemon }}
-                                            className="block transform hover:scale-105 transition-all duration-300"
-                                        >
+                ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {filteredPokemon.map((pokemon) => (
+                            <div key={pokemon.id} className="relative group">
+                                <Link
+                                    to={`/pokemon/${pokemon.id}`}
+                                    state={{ from: 'favorites', pokemon }}
+                                    className="block transform hover:scale-105 transition-all duration-300"
+                                >
+                                    <div
+                                        className={`bg-gradient-to-b ${getTypeColor(pokemon.type[0] as PokemonType)} 
+                                            to-transparent backdrop-blur-md rounded-xl p-6 transition-all 
+                                            relative overflow-hidden hover:shadow-xl hover:shadow-white/10`}
+                                    >
+                                        <div className="absolute inset-0 opacity-10">
                                             <div
-                                                className={`bg-gradient-to-b ${getTypeColor(pokemon.type[0] as PokemonType)} 
-                                                    to-transparent backdrop-blur-md rounded-xl p-6 transition-all 
-                                                    relative overflow-hidden hover:shadow-xl hover:shadow-white/10`}
-                                            >
-                                                <div className="absolute inset-0 opacity-10">
-                                                    <div
-                                                        className="absolute inset-0 bg-repeat bg-center"
-                                                        style={{
-                                                            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0a30 30 0 110 60 30 30 0 010-60zm0 15a15 15 0 100 30 15 15 0 000-30z' fill='%23ffffff' fill-opacity='0.4'/%3E%3C/svg%3E")`,
-                                                            backgroundSize: '30px 30px'
-                                                        }}
-                                                    />
-                                                </div>
+                                                className="absolute inset-0 bg-repeat bg-center"
+                                                style={{
+                                                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0a30 30 0 110 60 30 30 0 010-60zm0 15a15 15 0 100 30 15 15 0 000-30z' fill='%23ffffff' fill-opacity='0.4'/%3E%3C/svg%3E")`,
+                                                    backgroundSize: '30px 30px'
+                                                }}
+                                            />
+                                        </div>
 
-                                                <div className="relative flex flex-col items-center">
-                                                    <div className="relative mb-4">
-                                                        <div
-                                                            className={`absolute inset-0 ${TYPE_COLORS[pokemon.type[0] as PokemonType]} 
-                                                                opacity-20 rounded-full blur-xl group-hover:opacity-30 transition-all`}
-                                                        />
-                                                        <img
-                                                            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`}
-                                                            alt={pokemon.name}
-                                                            className="w-32 h-32 object-contain drop-shadow-lg
-                                                                group-hover:scale-110 transition-transform duration-300"
-                                                        />
-                                                    </div>
+                                        <div className="relative flex flex-col items-center">
+                                            <div className="relative mb-4">
+                                                <div
+                                                    className={`absolute inset-0 ${TYPE_COLORS[pokemon.type[0] as PokemonType]} 
+                                                        opacity-20 rounded-full blur-xl group-hover:opacity-30 transition-all`}
+                                                />
+                                                <img
+                                                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`}
+                                                    alt={pokemon.name}
+                                                    className="w-32 h-32 object-contain drop-shadow-lg
+                                                        group-hover:scale-110 transition-transform duration-300"
+                                                />
+                                            </div>
 
-                                                    <h2 className="text-xl font-bold mb-3 text-white 
-                                                        group-hover:text-yellow-300 transition-colors">
-                                                        {pokemon.name}
-                                                    </h2>
+                                            <h2 className="text-xl font-bold mb-3 text-white 
+                                                group-hover:text-yellow-300 transition-colors">
+                                                {pokemon.name}
+                                            </h2>
 
-                                                    <div className="flex gap-2 mb-4">
-                                                        {pokemon.type.map((type: string) => (
-                                                            <span
-                                                                key={type}
-                                                                className={`px-3 py-1 rounded-full text-white text-sm 
-                                                                    font-medium ${TYPE_COLORS[type as PokemonType]} 
-                                                                    bg-opacity-80 transform group-hover:scale-110 
-                                                                    transition-all duration-300`}
-                                                            >
-                                                                {type}
-                                                            </span>
-                                                        ))}
-                                                    </div>
-
-                                                    <div className="grid grid-cols-2 gap-4 w-full">
-                                                        <div className="text-white">
-                                                            <div className="text-sm opacity-80">HP</div>
-                                                            <div className="text-lg font-bold">{pokemon.stats.hp}</div>
-                                                        </div>
-                                                        <div className="text-white">
-                                                            <div className="text-sm opacity-80">Attack</div>
-                                                            <div className="text-lg font-bold">{pokemon.stats.attack}</div>
-                                                        </div>
-                                                        <div className="text-white">
-                                                            <div className="text-sm opacity-80">Defense</div>
-                                                            <div className="text-lg font-bold">{pokemon.stats.defense}</div>
-                                                        </div>
-                                                        <div className="text-white">
-                                                            <div className="text-sm opacity-80">Speed</div>
-                                                            <div className="text-lg font-bold">{pokemon.stats.speed}</div>
-                                                        </div>
-                                                    </div>
-
-                                                    <button
-                                                        onClick={(e) => {
-                                                            e.preventDefault();
-                                                            e.stopPropagation();
-                                                            toggleFavorite(pokemon.id);
-                                                        }}
-                                                        className="mt-4 p-2 rounded-full bg-white/10 text-red-500 
-                                                            transition-all transform hover:scale-110"
+                                            <div className="flex gap-2 mb-4">
+                                                {pokemon.type.map((type: string) => (
+                                                    <span
+                                                        key={type}
+                                                        className={`px-3 py-1 rounded-full text-white text-sm 
+                                                            font-medium ${TYPE_COLORS[type as PokemonType]} 
+                                                            bg-opacity-80 transform group-hover:scale-110 
+                                                            transition-all duration-300`}
                                                     >
-                                                        <Heart size={20} fill="currentColor" />
-                                                    </button>
+                                                        {type}
+                                                    </span>
+                                                ))}
+                                            </div>
+
+                                            <div className="grid grid-cols-2 gap-4 w-full">
+                                                <div className="text-white">
+                                                    <div className="text-sm opacity-80">HP</div>
+                                                    <div className="text-lg font-bold">{pokemon.stats.hp}</div>
+                                                </div>
+                                                <div className="text-white">
+                                                    <div className="text-sm opacity-80">Attack</div>
+                                                    <div className="text-lg font-bold">{pokemon.stats.attack}</div>
+                                                </div>
+                                                <div className="text-white">
+                                                    <div className="text-sm opacity-80">Defense</div>
+                                                    <div className="text-lg font-bold">{pokemon.stats.defense}</div>
+                                                </div>
+                                                <div className="text-white">
+                                                    <div className="text-sm opacity-80">Speed</div>
+                                                    <div className="text-lg font-bold">{pokemon.stats.speed}</div>
                                                 </div>
                                             </div>
-                                        </Link>
+
+                                            <button
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    toggleFavorite(pokemon.id);
+                                                }}
+                                                className="mt-4 p-2 rounded-full bg-white/10 text-red-500 
+                                                    transition-all transform hover:scale-110"
+                                            >
+                                                <Heart size={20} fill="currentColor" />
+                                            </button>
+                                        </div>
                                     </div>
-                                ))}
+                                </Link>
                             </div>
-                        </>
-                    )}
-                </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );

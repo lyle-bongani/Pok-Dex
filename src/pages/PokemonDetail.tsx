@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
-import { ArrowLeft, Heart } from 'lucide-react';
-import { Helmet } from 'react-helmet-async';
+import { ArrowLeft, Heart, Star } from 'lucide-react';
 import { useFavorites } from '../contexts/FavoritesContext';
 import { TYPE_COLORS } from '../constants/pokemonTypes';
 import type { PokemonType } from '../types/pokemon';
@@ -174,35 +173,18 @@ const PokemonDetail: React.FC = () => {
   };
 
   return (
-    <>
-      <Helmet>
-        <title>{`${pokemon.name} - Pokédex Entry #${String(pokemon.id).padStart(3, '0')}`}</title>
-        <meta name="description" content={`Learn about ${pokemon.name}, a ${pokemon.type.join('/')} type Pokémon. ${pokemon.description}`} />
-        <meta property="og:title" content={`${pokemon.name} - Pokédex Entry #${String(pokemon.id).padStart(3, '0')}`} />
-        <meta property="og:description" content={`Learn about ${pokemon.name}, a ${pokemon.type.join('/')} type Pokémon. ${pokemon.description}`} />
-        <meta property="og:image" content={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`} />
-        <meta property="og:type" content="article" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${pokemon.name} - Pokédex Entry #${String(pokemon.id).padStart(3, '0')}`} />
-        <meta name="twitter:description" content={`Learn about ${pokemon.name}, a ${pokemon.type.join('/')} type Pokémon. ${pokemon.description}`} />
-        <meta name="twitter:image" content={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`} />
-        <script type="application/ld+json">
-          {JSON.stringify(structuredData)}
-        </script>
-      </Helmet>
-
-      <div className={`min-h-screen bg-gradient-to-b ${primaryTypeColor} to-transparent`}>
-        <div className="container mx-auto max-w-6xl px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-b from-red-600 to-red-500 p-4">
+      <div className="container mx-auto max-w-7xl">
+        <main className="bg-white/10 backdrop-blur-md rounded-xl shadow-lg p-6">
           {/* Back Button */}
           <Link
-            to={location.state?.from === 'list' ? '/pokemon' : '/'}
-            className="inline-flex items-center gap-2 text-white 
-              hover:text-yellow-300 transition-colors z-10 bg-black/20 px-4 py-2 
-              rounded-lg backdrop-blur-sm mb-6"
-            aria-label="Go back"
+            to="/pokemon"
+            className="inline-flex items-center gap-2 px-4 py-2 mb-6 bg-yellow-400 hover:bg-yellow-300 
+              text-red-700 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg 
+              hover:shadow-yellow-300/50"
           >
-            <ArrowLeft className="transition-transform group-hover:-translate-x-1" />
-            <span>Back</span>
+            <ArrowLeft className="w-5 h-5" />
+            Back to List
           </Link>
 
           {/* Main Content Grid */}
@@ -347,9 +329,9 @@ const PokemonDetail: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
+        </main>
       </div>
-    </>
+    </div>
   );
 };
 
