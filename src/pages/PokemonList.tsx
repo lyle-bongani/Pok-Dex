@@ -320,7 +320,7 @@ const PokemonList: React.FC = () => {
       <div className="container mx-auto px-4 pt-20 pb-8">
         {/* Search Section */}
         <div className="mb-8 mt-20 relative z-10">
-          <h1 className="text-6xl font-bold text-white mb-6 text-center pokemon-title">POKEMON LIST</h1>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 sm:mb-6 text-center pokemon-title">POKEMON LIST</h1>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-red-500 w-5 h-5" />
             <input
@@ -375,23 +375,23 @@ const PokemonList: React.FC = () => {
         </div>
 
         {/* Pokemon Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {filteredPokemon.map((pokemon, index) => (
             <article
               key={pokemon.id}
-              className="group relative"
+              className="group relative transform transition-all duration-300 hover:scale-[1.02]"
               itemScope
               itemType="https://schema.org/Thing"
               itemProp="item"
             >
               <Link
                 to={`/pokemon/${pokemon.id}`}
-                className="block"
+                className="block h-full"
                 aria-label={`View details for ${pokemon.name}`}
               >
                 <div className={`bg-gradient-to-b ${getTypeColor(pokemon.type[0])} to-transparent
-                  backdrop-blur-md rounded-xl p-8 transition-all duration-300 transform 
-                  hover:scale-105 relative overflow-hidden hover:shadow-xl hover:shadow-white/10`}>
+                  backdrop-blur-md rounded-xl p-4 sm:p-6 lg:p-8 transition-all duration-300
+                  hover:shadow-xl hover:shadow-white/10 h-full flex flex-col`}>
                   {/* Background Pattern */}
                   <div className="absolute inset-0 opacity-10">
                     <div className="absolute inset-0 bg-repeat bg-center"
@@ -402,15 +402,15 @@ const PokemonList: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="relative flex flex-col items-center">
+                  <div className="relative flex flex-col items-center flex-grow">
                     {/* Pokemon Image with Glow Effect */}
-                    <div className="relative mb-8">
+                    <div className="relative mb-4 sm:mb-6 lg:mb-8 w-full aspect-square max-w-[200px] sm:max-w-[240px] lg:max-w-[280px]">
                       <div className={`absolute inset-0 ${TYPE_COLORS[pokemon.type[0]]} 
                         opacity-20 rounded-full blur-xl group-hover:opacity-30 transition-all`}></div>
                       <img
                         src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`}
                         alt={`${pokemon.name} artwork`}
-                        className="w-64 h-64 object-contain drop-shadow-2xl
+                        className="w-full h-full object-contain drop-shadow-2xl
                           transform group-hover:scale-110 transition-all duration-300
                           group-hover:rotate-2"
                         loading="lazy"
@@ -418,21 +418,23 @@ const PokemonList: React.FC = () => {
                     </div>
 
                     {/* Pokemon Info */}
-                    <div className="text-center space-y-6 w-full">
+                    <div className="text-center space-y-4 w-full">
                       <div className="flex items-center justify-between w-full">
-                        <h3 className="text-3xl font-bold text-white group-hover:text-yellow-300 
-                          transition-colors">
+                        <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white group-hover:text-yellow-300 
+                          transition-colors truncate pr-2">
                           {pokemon.name}
                         </h3>
-                        <span className="text-white/60 text-xl">#{String(pokemon.id).padStart(3, '0')}</span>
+                        <span className="text-white/60 text-base sm:text-lg lg:text-xl whitespace-nowrap">
+                          #{String(pokemon.id).padStart(3, '0')}
+                        </span>
                       </div>
 
                       {/* Types */}
-                      <div className="flex gap-3 justify-center">
+                      <div className="flex flex-wrap gap-2 justify-center">
                         {pokemon.type.map((type) => (
                           <span
                             key={type}
-                            className={`px-4 py-2 rounded-full text-white text-base font-medium
+                            className={`px-3 py-1 sm:px-4 sm:py-2 rounded-full text-white text-sm sm:text-base font-medium
                               ${TYPE_COLORS[type]} bg-opacity-80 transition-transform duration-300
                               group-hover:scale-110`}
                           >
@@ -442,12 +444,12 @@ const PokemonList: React.FC = () => {
                       </div>
 
                       {/* Stats */}
-                      <div className="space-y-3 w-full">
+                      <div className="space-y-2 w-full">
                         <div className="flex justify-between items-center">
-                          <span className="text-white/80 text-base">Total</span>
-                          <span className="text-white font-bold text-xl">{pokemon.total}</span>
+                          <span className="text-white/80 text-sm sm:text-base">Total</span>
+                          <span className="text-white font-bold text-lg sm:text-xl">{pokemon.total}</span>
                         </div>
-                        <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                        <div className="h-1.5 sm:h-2 bg-white/10 rounded-full overflow-hidden">
                           <div
                             className={`h-full transition-all duration-1000
                               ${pokemon.total >= 600 ? 'bg-gradient-to-r from-yellow-400 to-yellow-300' : 'bg-yellow-400'}`}
@@ -467,7 +469,7 @@ const PokemonList: React.FC = () => {
                         e.preventDefault();
                         toggleFavorite(pokemon.id);
                       }}
-                      className={`absolute top-6 right-6 p-3 rounded-full transition-all transform hover:scale-110
+                      className={`absolute top-2 right-2 sm:top-4 sm:right-4 p-2 sm:p-3 rounded-full transition-all transform hover:scale-110
                         ${isFavorite(pokemon.id)
                           ? 'bg-white/10 text-red-500'
                           : 'bg-white/5 text-white/50 hover:text-white'
@@ -475,7 +477,8 @@ const PokemonList: React.FC = () => {
                       aria-label={`${isFavorite(pokemon.id) ? 'Remove from' : 'Add to'} favorites`}
                     >
                       <Heart
-                        size={24}
+                        size={20}
+                        className="sm:w-6 sm:h-6"
                         fill={isFavorite(pokemon.id) ? "currentColor" : "none"}
                       />
                     </button>
