@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "PokéDex",
+  "name": "PokéDex - Your Ultimate Pokémon Guide",
+  "description": "Explore the world of Pokémon with our comprehensive Pokédex. Find detailed information about all Pokémon, their types, abilities, and more.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +21,27 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#dc2626",
+  "background_color": "#dc2626",
+  "orientation": "portrait-primary",
+  "categories": ["games", "entertainment", "education"],
+  "lang": "en",
+  "dir": "ltr",
+  "scope": "/",
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "screenshots": [
+    {
+      "src": "https://pok-dex-iota.vercel.app/images/screenshot1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "https://pok-dex-iota.vercel.app/images/screenshot2.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ]
 }

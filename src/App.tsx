@@ -8,6 +8,7 @@ import PokemonList from './pages/PokemonList';
 import PokemonDetail from './pages/PokemonDetail';
 import { SearchProvider, useSearch } from './contexts/SearchContext';
 import Favorites from './pages/Favorites';
+import NotFound from './pages/NotFound';
 import { Home as HomeIcon, List, Heart, Search, X } from 'lucide-react';
 
 // Extend the Window interface
@@ -298,6 +299,7 @@ function App() {
                 <Route path="/pokemon" element={<PokemonList />} />
                 <Route path="/pokemon/:id" element={<PokemonDetail />} />
                 <Route path="/favorites" element={<Favorites />} />
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </main>
             <Footer />

@@ -7,11 +7,30 @@
     <meta name="theme-color" content="#000000" />
     
     <!-- Primary Meta Tags -->
-    <title>PokéDex - Your Ultimate Pokémon Guide</title>
-    <meta name="title" content="PokéDex - Your Ultimate Pokémon Guide">
-    <meta name="description" content="Explore the world of Pokémon with our comprehensive Pokédex. View detailed information about all Pokémon, including stats, abilities, evolution chains, and more. Your one-stop destination for everything Pokémon!" />
-    <meta name="keywords" content="Pokemon, Pokedex, Pokemon stats, Pokemon evolution, Pokemon abilities, Pokemon database, Pokemon guide, Pokemon types, Pokemon moves, Pokemon games" />
+    <title>PokéDex - Your Ultimate Pokémon Guide | Complete Pokédex Database</title>
+    <meta name="title" content="PokéDex - Your Ultimate Pokémon Guide | Complete Pokédex Database">
+    <meta name="description" content="Explore the world of Pokémon with our comprehensive Pokédex. View detailed information about all 1000+ Pokémon, including stats, abilities, evolution chains, types, and more. Your one-stop destination for everything Pokémon!" />
+    <meta name="keywords" content="Pokemon, Pokedex, Pokemon stats, Pokemon evolution, Pokemon abilities, Pokemon database, Pokemon guide, Pokemon types, Pokemon moves, Pokemon games, Pokemon list, Pokemon search, Pokemon favorites, Pokemon database, Pokemon encyclopedia" />
     <meta name="author" content="Lyle Bongani" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
+    <meta name="bingbot" content="index, follow" />
+    <link rel="canonical" href="https://pok-dex-iota.vercel.app/" />
+    <meta name="geo.region" content="US" />
+    <meta name="geo.placename" content="Worldwide" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="distribution" content="global" />
+    <meta name="rating" content="general" />
+    <meta name="theme-color" content="#dc2626" />
+    <meta name="msapplication-TileColor" content="#dc2626" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="PokéDex" />
+    <meta name="application-name" content="PokéDex" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -42,18 +61,72 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="%PUBLIC_URL%" />
     
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX', {
+        page_title: 'PokéDex - Your Ultimate Pokémon Guide',
+        page_location: 'https://pok-dex-iota.vercel.app/',
+        send_page_view: true
+      });
+    </script>
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
+
+    <!-- Facebook Pixel -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', 'your-facebook-pixel-id');
+      fbq('track', 'PageView');
+    </script>
+
+    <!-- Hotjar Tracking Code -->
+    <script>
+      (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:your-hotjar-id,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+      })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+
     <!-- Structured Data -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "PokéDex",
-        "url": "%PUBLIC_URL%",
+        "url": "https://pok-dex-iota.vercel.app",
         "description": "Your ultimate guide to the world of Pokémon. Explore detailed information about all Pokémon, their types, abilities, and more.",
         "potentialAction": {
           "@type": "SearchAction",
-          "target": "%PUBLIC_URL%/pokemon?search={search_term_string}",
+          "target": "https://pok-dex-iota.vercel.app/pokemon?search={search_term_string}",
           "query-input": "required name=search_term_string"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PokéDex",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://pok-dex-iota.vercel.app/logo192.png"
+          }
         }
       }
     </script>
@@ -62,11 +135,22 @@
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "PokéDex",
-        "url": "%PUBLIC_URL%",
-        "logo": "%PUBLIC_URL%/logo192.png",
+        "url": "https://pok-dex-iota.vercel.app",
+        "logo": "https://pok-dex-iota.vercel.app/logo192.png",
+        "description": "Your Ultimate Pokémon Guide - Complete Pokédex with detailed stats, types, and abilities.",
         "sameAs": [
-          "https://github.com/lyle-bongani"
-        ]
+          "https://github.com/lyle-bongani",
+          "https://twitter.com/lyle-bongani"
+        ],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer service",
+          "email": "contact@pokedex.com"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "US"
+        }
       }
     </script>
   </head>
