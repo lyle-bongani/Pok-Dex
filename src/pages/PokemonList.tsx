@@ -109,11 +109,13 @@ const PokemonList: React.FC = () => {
   const [pokemon, setPokemon] = useState<Pokemon[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState<string>('');
   const { isFavorite, toggleFavorite } = useFavorites();
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [filterType, setFilterType] = useState<'type' | 'legendary'>('type');
+
+  // Use SearchContext
+  const { searchTerm, setSearchTerm, searchResults } = useSearch();
 
   useEffect(() => {
     // Update meta tags
@@ -187,15 +189,16 @@ const PokemonList: React.FC = () => {
     );
   }
 
-  const filteredPokemon = pokemon.filter(pokemon => {
-    const matchesSearch = pokemon.name.toLowerCase().includes(searchTerm.toLowerCase());
-
-    if (selectedType === 'Legendary') {
-      return matchesSearch && pokemon.isLegendary;
-    }
-
-    const matchesType = selectedType ? pokemon.type.includes(selectedType as PokemonType) : true;
-    return matchesSearch && matchesType;
+  // Use context's searchResults if searching, otherwise all
+  const baseList = searchTerm ? searchResults : pokemon;
+  const filteredPokemon = baseList.filter(pokemon => {
+    if (!pokemon) return false;
+    const matchesType = selectedType === 'Legendary'
+      ? pokemon.isLegendary
+      : selectedType
+        ? pokemon.type.includes(selectedType as PokemonType)
+        : true;
+    return matchesType;
   });
 
   const allTypes = Array.from(new Set(pokemon.flatMap(pokemon => pokemon.type)));
