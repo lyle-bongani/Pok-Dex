@@ -62,39 +62,59 @@ export const initializeAnalytics = () => {
 
   // Google Tag Manager
   if (ANALYTICS_CONFIG.googleTagManagerId && ANALYTICS_CONFIG.googleTagManagerId !== 'GTM-XXXXXXX') {
-    // Load GTM
-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer',ANALYTICS_CONFIG.googleTagManagerId);
+    // Load GTM (typed)
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+
+    const firstScript = document.getElementsByTagName('script')[0] as HTMLScriptElement | undefined;
+    const gtmScript = document.createElement('script');
+    const dl = 'dataLayer' !== 'dataLayer' ? '&l=dataLayer' : '';
+    gtmScript.async = true;
+    gtmScript.src = `https://www.googletagmanager.com/gtm.js?id=${ANALYTICS_CONFIG.googleTagManagerId}${dl}`;
+    if (firstScript && firstScript.parentNode) {
+      firstScript.parentNode.insertBefore(gtmScript, firstScript);
+    } else {
+      document.head.appendChild(gtmScript);
+    }
   }
 
   // Facebook Pixel
   if (ANALYTICS_CONFIG.facebookPixelId && ANALYTICS_CONFIG.facebookPixelId !== 'your-facebook-pixel-id') {
-    // Load Facebook Pixel
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', ANALYTICS_CONFIG.facebookPixelId);
-    fbq('track', 'PageView');
+    // Load Facebook Pixel (typed)
+    if (!window.fbq) {
+      const fbqFunc: any = function(this: any, ...args: any[]) {
+        (fbqFunc.callMethod ? fbqFunc.callMethod : (fbqFunc.queue = fbqFunc.queue || [])).apply(fbqFunc, args);
+      } as any;
+      (fbqFunc as any).queue = [];
+      (fbqFunc as any).loaded = true;
+      (fbqFunc as any).version = '2.0';
+      window.fbq = fbqFunc as (...args: any[]) => void;
+      (window as any)._fbq = window.fbq;
+
+      const t = document.createElement('script');
+      t.async = true;
+      t.src = 'https://connect.facebook.net/en_US/fbevents.js';
+      const s = document.getElementsByTagName('script')[0];
+      s?.parentNode?.insertBefore(t, s);
+    }
+    window.fbq('init', ANALYTICS_CONFIG.facebookPixelId);
+    window.fbq('track', 'PageView');
   }
 
   // Hotjar
   if (ANALYTICS_CONFIG.hotjarId && ANALYTICS_CONFIG.hotjarId !== 'your-hotjar-id') {
-    (function(h,o,t,j,a,r){
-      h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-      h._hjSettings={hjid:ANALYTICS_CONFIG.hotjarId,hjsv:6};
-      a=o.getElementsByTagName('head')[0];
-      r=o.createElement('script');r.async=1;
-      r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-      a.appendChild(r);
-    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    if (!window.hj) {
+      (window as any).hj = function(...args: any[]) {
+        const hjAny = (window as any).hj as any;
+        hjAny.q = hjAny.q || [];
+        hjAny.q.push(args);
+      };
+    }
+    window._hjSettings = { hjid: ANALYTICS_CONFIG.hotjarId as any, hjsv: 6 } as any;
+    const hjScript = document.createElement('script');
+    hjScript.async = true;
+    hjScript.src = `https://static.hotjar.com/c/hotjar-${(window._hjSettings as any).hjid}.js?sv=${(window._hjSettings as any).hjsv}`;
+    document.head.appendChild(hjScript);
   }
 };
 

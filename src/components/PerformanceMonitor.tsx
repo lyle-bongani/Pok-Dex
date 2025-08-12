@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { PERFORMANCE_METRICS, trackPerformanceMetric } from '../services/seoService';
+import { PERFORMANCE_METRICS } from '../services/seoService';
+import { trackPerformanceMetric } from '../services/analyticsService';
 
 interface PerformanceData {
   lcp: number | null;

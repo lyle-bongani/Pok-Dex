@@ -199,15 +199,47 @@ export const trackPerformanceMetrics = () => {
     // Track Core Web Vitals
     const observer = new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
-        console.log('Performance Metric:', entry.name, entry.value);
-        
-        // Send to analytics
-        if (window.gtag) {
-          window.gtag('event', 'performance_metric', {
-            metric_name: entry.name,
-            metric_value: entry.value,
-            page_location: window.location.href
-          });
+        let metricValue: number | undefined;
+        let metricName = entry.name;
+
+        switch (entry.entryType) {
+          case 'largest-contentful-paint': {
+            // LargestContentfulPaint
+            metricValue = (entry as PerformanceEntry).startTime;
+            break;
+          }
+          case 'first-input': {
+            // PerformanceEventTiming: FID ≈ processingStart - startTime (or duration)
+            const e = entry as PerformanceEventTiming;
+            metricValue = (e.processingStart || 0) - e.startTime;
+            // Some browsers set duration ~ FID; fallback if negative/zero
+            if (!metricValue || metricValue < 0) metricValue = e.duration;
+            metricName = 'first-input-delay';
+            break;
+          }
+          case 'layout-shift': {
+            // LayoutShift has .value
+            metricValue = (entry as any).value as number;
+            metricName = 'layout-shift';
+            break;
+          }
+          default: {
+            // Ignore other types
+            continue;
+          }
+        }
+
+        if (typeof metricValue === 'number') {
+          console.log('Performance Metric:', metricName, metricValue);
+
+          // Send to analytics
+          if (window.gtag) {
+            window.gtag('event', 'performance_metric', {
+              metric_name: metricName,
+              metric_value: metricValue,
+              page_location: window.location.href
+            });
+          }
         }
       }
     });

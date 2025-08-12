@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+
 import { Link } from 'react-router-dom';
 import { Search, Heart, ArrowUp } from 'lucide-react';
 import { useFavorites } from '../contexts/FavoritesContext';
@@ -190,7 +191,17 @@ const PokemonList: React.FC = () => {
   }
 
   // Use context's searchResults if searching, otherwise all
-  const baseList = searchTerm ? searchResults : pokemon;
+  // Normalize searchResults to match the Pokemon interface (capitalize types, ensure isLegendary exists)
+  const baseList: Pokemon[] = searchTerm
+    ? searchResults.map((p: any) => ({
+        ...p,
+        type: p.type.map((t: string) =>
+          (t.charAt(0).toUpperCase() + t.slice(1)) as PokemonType
+        ),
+        isLegendary: p.isLegendary ?? false,
+      }))
+    : pokemon;
+
   const filteredPokemon = baseList.filter(pokemon => {
     if (!pokemon) return false;
     const matchesType = selectedType === 'Legendary'
